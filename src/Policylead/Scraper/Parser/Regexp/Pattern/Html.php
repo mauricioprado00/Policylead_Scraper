@@ -29,6 +29,7 @@ class Html extends Pattern
         (?<target_blank_single>    target='_blank')
         (?<target_blank>           (?&target_blank_double) | (?&target_blank_single))
         (?<tag_end_attributes>     (?&attributes)* (?&tag_end))
+        (?<text>                   [^<]*)
 
 DEF
 );
