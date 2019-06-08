@@ -21,7 +21,7 @@ DEF
             'tag_begin',
             'link_class_attribute',
             'tag_end',
-            'articleTitle' => 'text',
+            'articleTitle' => ['raw' => '[^<]*'],
         ));
     }
 
@@ -34,10 +34,11 @@ DEF
      */
     public function getArticleTitle($content, $slice = null)
     {
+        #echo $this->parser->buildRegexp();
+
         $title = $this->parser->match_all_get('articleTitle', 
             $content, $matches);
 
-        #echo $this->parser->buildRegexp();
 
         if($title) {
             return array_slice($title, 0, $slice);

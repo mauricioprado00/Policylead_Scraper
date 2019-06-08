@@ -72,20 +72,28 @@ class Pattern
     {
         $pattern = '';
         foreach ($this->pattern as $key => $entity) {
+
             $any_space = '(?&any_space)';
+            $entity_name = $entity;
+
             if (is_array($entity)) {
                 $any_space = !isset($entity['spaces_after']) || $entity['spaces_after'] ? $any_space : '';
-                $entity = $entity['name'];
+                $entity_name = $entity['name'];
+            }
+
+            $raw = "(?&{$entity_name})";
+            if (isset($entity['raw'])) {
+                $raw = $entity['raw'];
             }
             
             if (is_numeric($key)) {
                 $pattern .= <<< PAT
-(?&{$entity}) $any_space
+$raw $any_space
 
 PAT;
             } else {
                 $pattern .= <<< PAT
-(?<{$key}>(?&{$entity})) $any_space
+(?<{$key}>$raw) $any_space
 
 PAT;
             }
