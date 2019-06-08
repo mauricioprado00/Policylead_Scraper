@@ -14,6 +14,7 @@ class Html extends Pattern
         (?<close_tag>              <\/[a-zA-Z_0-9]+)
         (?<tag_begin>              <[a-zA-Z_0-9]+\s)
         (?<tag_end>                .*?>)
+        (?<start_tag>              <[a-zA-Z_0-9]+>)
         (?<span>                   <span>)  
         (?<attribute_content>      [^"])
         (?<attribute_contents>     (?&attribute_content)+)
