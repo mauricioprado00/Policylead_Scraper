@@ -27,11 +27,12 @@ class Html extends Pattern
         (?<attribute_end>          (?&attribute_end_double) | (?&attribute_end_single))
         (?<attribute>              (?&attribute_start)  (?&attribute_contents)  (?&attribute_end))
         (?<attributes>             (?&attribute) ((?&any_space) (?&attribute))*) 
+        (?<optional_attributes>    (?&attributes)?)
         (?<target_blank_double>    target="_blank")
         (?<target_blank_single>    target='_blank')
         (?<target_blank>           (?&target_blank_double) | (?&target_blank_single))
         (?<tag_end_attributes>     (?&attributes)* (?&tag_end))
-        (?<text>                   [^<]*)
+        (?<text>                   [^<>]*)
 
 DEF
 );
