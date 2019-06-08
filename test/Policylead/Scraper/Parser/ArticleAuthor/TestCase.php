@@ -1,6 +1,6 @@
 <?php
 
-namespace Policylead\Scraper\Parser\ArticleTitle;
+namespace Policylead\Scraper\Parser\ArticleAuthor;
 
 abstract class TestCase extends \Policylead\Scraper\TestCase 
 {

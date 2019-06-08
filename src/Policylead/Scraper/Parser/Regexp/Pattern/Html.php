@@ -20,7 +20,7 @@ class Html extends Pattern
         (?<href_start_double>      href=")
         (?<href_start_single>      href=")
         (?<href_start>             (?&href_start_double) | (?&href_start_single))
-        (?<attribute_start>        [a-z-]=")
+        (?<attribute_start>        [a-z-]+=")
         (?<attribute_end_single>   ')
         (?<attribute_end_double>   ")
         (?<attribute_end>          (?&attribute_end_double) | (?&attribute_end_single))
