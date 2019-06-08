@@ -11,6 +11,7 @@ class Html extends Pattern
         $this->addDefinitions(<<<DEF
         
         (?<any_space>              \s*)
+        (?<close_tag>              <\/[a-zA-Z_0-9]+)
         (?<tag_begin>              <[a-zA-Z_0-9]+\s)
         (?<tag_end>                .*?>)
         (?<span>                   <span>)  
