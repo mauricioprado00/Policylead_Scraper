@@ -1,0 +1,11 @@
+/vendor/
+/composer.lock
+/var/log/
+/vendor
+/tmp
+/config/config.ini
+/coverage/
+/archive/
+/lockfile.tmp
+/var/lock/*
+/var/failed/*
