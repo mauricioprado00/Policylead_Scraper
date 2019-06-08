@@ -2,30 +2,16 @@
 
 namespace Policylead\Scraper\Parser\ArticleTitle;
 
-class DefTest extends \Policylead\Scraper\TestCase 
-{
-    public function getTestCases()
-    {
-        return array(
-            array(
-                'a-1271484.html',
-                array(
-                  'Leserkommentare zum Juso-Chef',
-                  '"Kühnert muss endlich übernehmen" - "Bloß nicht"',
-                ),
-            ),
-        );
-    }
+use Policylead\Scraper\Parser\ArticleTitle\Def as Model;
 
+class DefTest extends TestCase
+{
     /**
-     * @test
-     * @dataProvider getTestCases
+     * @return \Policylead\Scraper\Parser\ArticleTitle
      */
-    public function articleTitlesWillBeParsed($file, $expected)
+    public function getInstance()
     {
-        $content = $this->readHtml($file);
-        $parser = new Def();
-        $actual = $parser->getArticleTitle($content, 2);
-        $this->assertEquals($expected, $actual);
+        $parser = new Model();
+        return $parser;
     }
 }

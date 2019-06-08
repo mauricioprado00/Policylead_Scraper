@@ -2,30 +2,16 @@
 
 namespace Policylead\Scraper\Parser\ArticleTitle;
 
-class FromJsonTest extends \Policylead\Scraper\TestCase 
-{
-    public function getTestCases()
-    {
-        return array(
-            array(
-                'a-1271484.html',
-                array(
-                  'Leserkommentare zum Juso-Chef',
-                  '"Kühnert muss endlich übernehmen" - "Bloß nicht"',
-                ),
-            ),
-        );
-    }
+use Policylead\Scraper\Parser\ArticleTitle\FromJson as Model;
 
+class FromJsonTest extends TestCase 
+{
     /**
-     * @test
-     * @dataProvider getTestCases
+     * @return \Policylead\Scraper\Parser\ArticleTitle
      */
-    public function articleTitlesWillBeParsed($file, $expected)
+    public function getInstance()
     {
-        $content = $this->readHtml($file);
-        $parser = new FromJson();
-        $actual = $parser->getArticleTitle($content, 2);
-        $this->assertEquals($expected, $actual);
+        $parser = new Model();
+        return $parser;
     }
 }
