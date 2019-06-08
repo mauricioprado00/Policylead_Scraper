@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+composer="$(dirname $0)/composer"
+
+$composer init

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+package1=$1
+
+if [[ "$package1" == "" ]] ; then
+    echo "please specify package to add"
+    exit 1
+fi
+
+composer="$(dirname $0)/composer"
+
+$composer require $@

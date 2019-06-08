@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+function pull_composer_image()
+{
+    docker pull composer/composer
+}
+
+if [[ "$(docker images -q composer/composer 2> /dev/null)" == "" ]]; then
+  pull_composer_image
+fi
+
+USER=$(id -u)
+GROUP=$(id -g)
+
+docker run --rm -e "COMPOSER_CACHE_DIR=/tmp/cache" -u="$USER:$GROUP" -v $(pwd):/app composer/composer $@
