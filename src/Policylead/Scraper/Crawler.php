@@ -189,4 +189,28 @@ class Crawler
 
         return $article;
     }
+
+    /**
+     * @return string
+     */
+    public function getArticleUrl($url)
+    {
+        $host = parse_url($url, PHP_URL_HOST);
+        if (isset($host)) {
+            return $url;
+        }
+
+
+        $host = parse_url($this->url, PHP_URL_HOST);
+        $scheme = parse_url($this->url, PHP_URL_SCHEME);
+        $user = parse_url($this->url, PHP_URL_USER);
+        $pass = parse_url($this->url, PHP_URL_PASS);
+        $port = parse_url($this->url, PHP_URL_PORT);
+
+        $url = ltrim($url, '/');
+        $userpass = $user ? $user . ':' . $pass . '@' : '';
+        $port = $port ? ':' . $port : '';
+        $url = $scheme . ':' . '//' . $userpass . $host . $port . '/' . $url;
+        return $url;
+    }
 }
