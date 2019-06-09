@@ -220,12 +220,17 @@ class Crawler
             }
 
             foreach ($articleUrlList as $articleUrl) {
-                $article = $this->crawlArticle($articleUrl);
-                if ($article) {
-                    $this->articles[] = $article;
-                }
-                if ($limit && count($this->articles) === $limit) {
-                    break;
+                $articleUrl = $this->getArticleUrl($articleUrl);
+
+                if (!Article::isArticleStored($articleUrl)) {
+                    $article = $this->crawlArticle($articleUrl);
+                    if ($article) {
+                        $this->articles[] = $article;
+                        $article->store();
+                    }
+                    if ($limit && count($this->articles) === $limit) {
+                        break;
+                    }
                 }
             }
 
@@ -269,12 +274,11 @@ class Crawler
     {
         $result = null;
 
-        $articleUrl = $this->getArticleUrl($url);
-        $this->urlRetriever->fetch($articleUrl);
+        $this->urlRetriever->fetch($url);
 
         $content = $this->urlRetriever->getContent();
         if ($content) {
-            $result = $this->parseArticle($content, $articleUrl);
+            $result = $this->parseArticle($content, $url);
         } else {
             $this->lastErrorMessage = 'Could not retrieve article.';
             $this->lastErrorCode = 2;

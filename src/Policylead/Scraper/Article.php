@@ -93,8 +93,39 @@ class Article
     public function store()
     {
         $json = $this->jsonEncode();
-        $file = self::$storeLocation . '/' . $this->storeKey() . '.json';
+        $file = $this->getStoreLocation();
         $result = file_put_contents($file, $json);
         return $result  ? $file : false;
+    }
+
+    /**
+     * check if article is already stored
+     * @return boolean
+     */
+    public function isStored()
+    {
+        $file = $this->getStoreLocation();
+        return file_exists($file);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStoreLocation()
+    {
+        $file = realpath(self::$storeLocation) . '/' . $this->storeKey() . '.json';
+        return $file;
+    }
+
+
+    /**
+     * @param string $url
+     * @return boolean
+     */
+    public static function isArticleStored($url)
+    {
+        $instance = new self();
+        $instance->url = $url;
+        return $instance->isStored();
     }
 }

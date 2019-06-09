@@ -58,7 +58,7 @@ class Crawler_Exec
             $result = $crawler->crawl($this->limit);
             $articles = $crawler->getArticles();
             foreach ($articles as $article) {
-                $file = $article->store();
+                $file = $article->getStoreLocation();
                 echo 'Article stored in ' . $file . PHP_EOL;
             }
             var_dump([
