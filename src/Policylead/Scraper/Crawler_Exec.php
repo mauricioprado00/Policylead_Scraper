@@ -35,7 +35,17 @@ class Crawler_Exec
     private function process()
     {
         try {
+            UrlRetriever::enableLogging(true);
+            
             var_dump($this->url);
+            $crawler = new Crawler();
+            $crawler->setUrl($this->url);
+            $result = $crawler->crawl();
+            var_dump([
+                'result' => $result, 
+                'articles' => $crawler->getArticles(),
+                'lastError' => $crawler->getLastErrorMessage(),
+            ]);
 
         } catch(\Exception $e) {
             $message = "There was an error while trying to process the request. \n" . $e->getMessage() . PHP_EOL;
