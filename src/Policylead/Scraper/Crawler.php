@@ -10,7 +10,7 @@ class Crawler
     private $url;
 
     /**
-     * @var array[]
+     * @var Article[]
      */
     private $articles;
 
@@ -197,7 +197,7 @@ class Crawler
     }
 
     /**
-     * @return array[]
+     * @return Article[]
      */
     public function getArticles()
     {
@@ -257,7 +257,7 @@ class Crawler
 
     /**
      * @param string $url
-     * @return string[]
+     * @return Article
      */
     private function crawlArticle($url)
     {
@@ -284,27 +284,27 @@ class Crawler
     /**
      * @param string $content
      * @param string $url
-     * @return string[]
+     * @return Article
      */
     private function parseArticle($content, $url)
     {
-        $article = [];
+        $article = new Article();
 
-        $article['url'] = $url;
+        $article->url = $url;
 
-        $article['title'] = $this->articleTitleParser
+        $article->title = $this->articleTitleParser
             ->getArticleTitle($content, 2);
 
-        $article['author'] = $this->articleAuthorParser
+        $article->author = $this->articleAuthorParser
             ->getArticleAuthor($content, 2);
 
-        $article['date'] = $this->articleDateParser
+        $article->date = $this->articleDateParser
             ->getArticleDate($content, 2);
 
-        $article['excerpt'] = $this->articleExcerptParser
+        $article->excerpt = $this->articleExcerptParser
             ->getArticleExcerpt($content, 2);
 
-        $article['text'] = $this->articleTextParser
+        $article->text = $this->articleTextParser
             ->getArticleText($content, 2);
 
         return $article;
