@@ -40,9 +40,15 @@ class Crawler
     private $articleTitleParser;
 
     /**
+     * @var Parser\ArticleAuthor $articleAuthorParser
+     */
+    private $articleAuthorParser;
+
+    /**
      * @param UrlRetriever $urlRetriever
      * @param Parser\ArticleLink $articleLinkParser
      * @param Parser\ArticleTitle $articleTitleParser
+     * @param Parser\ArticleAuthor $articleAuthorParser
      */
     public function __construct($urlRetriever = null, 
         $articleLinkParser = null, 
@@ -56,6 +62,9 @@ class Crawler
 
         $this->setArticleTitleParser($articleTitleParser ? 
             $articleTitleParser : new Parser\ArticleTitle\Def());
+
+        $this->setArticleAuthorParser($articleAuthorParser ? 
+            $articleAuthorParser : new Parser\ArticleAuthor\Def());
     }
 
     /**
@@ -75,6 +84,16 @@ class Crawler
     public function setArticleTitleParser($articleTitleParser)
     {
         $this->articleTitleParser = $articleTitleParser;
+        return $this;
+    }
+
+    /**
+     * @param Parser\ArticleAuthor $articleAuthorParser
+     * @return Crawler
+     */
+    public function setArticleAuthorParser($articleAuthorParser)
+    {
+        $this->articleAuthorParser = $articleAuthorParser;
         return $this;
     }
 
@@ -210,6 +229,9 @@ class Crawler
 
         $article['title'] = $this->articleTitleParser
             ->getArticleTitle($content, 2);
+
+        $article['author'] = $this->articleAuthorParser
+            ->getArticleAuthor($content, 2);
 
         return $article;
     }
