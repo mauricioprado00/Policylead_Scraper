@@ -163,7 +163,8 @@ class Crawler
     {
         $result = null;
 
-        $this->urlRetriever->fetch($url);
+        $articleUrl = $this->getArticleUrl($url);
+        $this->urlRetriever->fetch($articleUrl);
 
         $content = $this->urlRetriever->getContent();
         if ($content) {
