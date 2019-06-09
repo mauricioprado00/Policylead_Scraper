@@ -8,4 +8,5 @@
 /archive/
 /lockfile.tmp
 /var/lock/*
+/var/article/*
 /var/failed/*

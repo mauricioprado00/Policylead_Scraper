@@ -224,6 +224,8 @@ class Crawler
                     $this->articles[] = $article;
                 }
             }
+
+            $result = count($this->articles) ? true : false;
         }
 
         return $result;

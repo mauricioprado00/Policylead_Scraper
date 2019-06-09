@@ -41,9 +41,13 @@ class Crawler_Exec
             $crawler = new Crawler();
             $crawler->setUrl($this->url);
             $result = $crawler->crawl();
+            $articles = $crawler->getArticles();
+            foreach ($articles as $article) {
+                $file = $article->store();
+                echo 'Article stored in ' . $file . PHP_EOL;
+            }
             var_dump([
                 'result' => $result, 
-                'articles' => $crawler->getArticles(),
                 'lastError' => $crawler->getLastErrorMessage(),
             ]);
 
