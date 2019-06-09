@@ -43,7 +43,7 @@ DEF
         #echo $this->parser->buildRegexp();
 
         if($links) {
-            return $links;
+            return array_slice($links, 0, $slice);
         }
     }
 

@@ -45,10 +45,16 @@ class Crawler
     private $articleAuthorParser;
 
     /**
+     * @var Parser\ArticleDate $articleDateParser
+     */
+    private $articleDateParser;
+
+    /**
      * @param UrlRetriever $urlRetriever
      * @param Parser\ArticleLink $articleLinkParser
      * @param Parser\ArticleTitle $articleTitleParser
      * @param Parser\ArticleAuthor $articleAuthorParser
+     * @param Parser\ArticleDate $articleDateParser
      */
     public function __construct($urlRetriever = null, 
         $articleLinkParser = null, 
@@ -65,6 +71,9 @@ class Crawler
 
         $this->setArticleAuthorParser($articleAuthorParser ? 
             $articleAuthorParser : new Parser\ArticleAuthor\Def());
+
+        $this->setArticleDateParser($articleDateParser ? 
+            $articleDateParser : new Parser\ArticleDate\Def());
     }
 
     /**
@@ -94,6 +103,16 @@ class Crawler
     public function setArticleAuthorParser($articleAuthorParser)
     {
         $this->articleAuthorParser = $articleAuthorParser;
+        return $this;
+    }
+
+    /**
+     * @param Parser\ArticleDate $articleDateParser
+     * @return Crawler
+     */
+    public function setArticleDateParser($articleDateParser)
+    {
+        $this->articleDateParser = $articleDateParser;
         return $this;
     }
 
@@ -181,7 +200,7 @@ class Crawler
         $content = $this->urlRetriever->getContent();
         if ($content) {
             $result = $this->articleLinkParser
-                ->getArticleLinks($content);
+                ->getArticleLinks($content, 2);
         } else {
             $this->lastErrorMessage = 'Could not retrieve article list.';
             $this->lastErrorCode = 1;
@@ -232,6 +251,9 @@ class Crawler
 
         $article['author'] = $this->articleAuthorParser
             ->getArticleAuthor($content, 2);
+
+        $article['date'] = $this->articleDateParser
+            ->getArticleDate($content, 2);
 
         return $article;
     }
