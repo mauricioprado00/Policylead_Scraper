@@ -36,8 +36,8 @@ class Crawler_Exec
     {
         try {
             UrlRetriever::enableLogging(true);
-            
-            var_dump($this->url);
+
+            echo 'Crawling ' . $this->url . PHP_EOL;
             $crawler = new Crawler();
             $crawler->setUrl($this->url);
             $result = $crawler->crawl();

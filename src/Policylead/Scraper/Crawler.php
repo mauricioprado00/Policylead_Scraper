@@ -29,10 +29,33 @@ class Crawler
      */
     private $lastErrorCode;
 
-    public function __construct($urlRetriever = null)
+    /**
+     * @var Parser\ArticleLink $articleLinkParser
+     */
+    private $articleLinkParser;
+
+    /**
+     * @param UrlRetriever $urlRetriever
+     * @param Parser\ArticleLink $articleLinkParser
+     */
+    public function __construct($urlRetriever = null, 
+        $articleLinkParser = null)
     {
         $this->setUrlRetriever($urlRetriever ? 
             $urlRetriever : new UrlRetriever());
+
+        $this->setArticleLinkParser($articleLinkParser ? 
+            $articleLinkParser : new Parser\ArticleLink\Def());
+    }
+
+    /**
+     * @param Parser\ArticleLink $articleLinkParser
+     * @return Crawler
+     */
+    public function setArticleLinkParser($articleLinkParser)
+    {
+        $this->articleLinkParser = $articleLinkParser;
+        return $this;
     }
 
     /**
@@ -90,9 +113,13 @@ class Crawler
 
         if ($this->url) {
             $articleUrlList = $this->crawlArticleList($this->url);
-            if (!$result) {
+            
+            if (!$articleUrlList) {
                 $articleUrlList = [$this->url];
             }
+
+            var_dump($articleUrlList);
+
 
             foreach ($articleUrlList as $articleUrl) {
                 $article = $this->crawlArticle($this->url);
@@ -117,7 +144,8 @@ class Crawler
 
         $content = $this->urlRetriever->getContent();
         if ($content) {
-            $result = [];
+            $result = $this->articleLinkParser
+                ->getArticleLinks($content);
         } else {
             $this->lastErrorMessage = 'Could not retrieve article list.';
             $this->lastErrorCode = 1;
