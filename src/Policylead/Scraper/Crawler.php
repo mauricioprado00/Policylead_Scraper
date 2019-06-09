@@ -50,15 +50,24 @@ class Crawler
     private $articleDateParser;
 
     /**
+     * @var Parser\ArticleExcerpt $articleExcerptParser
+     */
+    private $articleExcerptParser;
+
+    /**
      * @param UrlRetriever $urlRetriever
      * @param Parser\ArticleLink $articleLinkParser
      * @param Parser\ArticleTitle $articleTitleParser
      * @param Parser\ArticleAuthor $articleAuthorParser
      * @param Parser\ArticleDate $articleDateParser
+     * @param Parser\ArticleExcerpt $articleExcerptParser
      */
     public function __construct($urlRetriever = null, 
         $articleLinkParser = null, 
-        $articleTitleParser = null)
+        $articleTitleParser = null, 
+        $articleAuthorParser = null,
+        $articleDateParser = null,
+        $articleExcerptParser = null)
     {
         $this->setUrlRetriever($urlRetriever ? 
             $urlRetriever : new UrlRetriever());
@@ -74,6 +83,9 @@ class Crawler
 
         $this->setArticleDateParser($articleDateParser ? 
             $articleDateParser : new Parser\ArticleDate\Def());
+
+        $this->setArticleExcerptParser($articleExcerptParser ? 
+            $articleExcerptParser : new Parser\ArticleExcerpt\Def());
     }
 
     /**
@@ -113,6 +125,16 @@ class Crawler
     public function setArticleDateParser($articleDateParser)
     {
         $this->articleDateParser = $articleDateParser;
+        return $this;
+    }
+
+    /**
+     * @param Parser\ArticleExcerpt $articleExcerptParser
+     * @return Crawler
+     */
+    public function setArticleExcerptParser($articleExcerptParser)
+    {
+        $this->articleExcerptParser = $articleExcerptParser;
         return $this;
     }
 
@@ -254,6 +276,9 @@ class Crawler
 
         $article['date'] = $this->articleDateParser
             ->getArticleDate($content, 2);
+
+        $article['excerpt'] = $this->articleExcerptParser
+            ->getArticleExcerpt($content, 2);
 
         return $article;
     }
