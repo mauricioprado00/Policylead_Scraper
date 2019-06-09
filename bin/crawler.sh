@@ -6,6 +6,7 @@ depends sources/docker sources/colours sources/mutex local/aliases local/paths
 dockerized=no
 
 url=''
+limit=''
 allargs=$@
 all_arguments=$@
 exclusive=crawler
@@ -30,11 +31,16 @@ function cmd-help() {
     echo 
     echo "          d:                  from docker container."
     echo "          p:                  run without docker"
+    echo "          l:                  limit the amount of articles to crawl"
     echo 
     echo "  <command>:"
     echo "          cmd-help            Prints the help"
     echo "          cmd-crawl           Runs the crawling task"
     echo "          cmd-run             Runs the crawling with default parameters"
+    echo ""
+    echo ""
+    echo "Example: "
+    echo "   ./bin/crawler.sh -d -u'https://www.spiegel.de/politik/' -l5 cmd-crawl"
     echo 
 }
 
@@ -77,6 +83,10 @@ function crawl() {
         params="$params --url=${url}"
     fi
         
+    if [ -n "${limit}" ]; then
+        params="$params --limit=${limit}"
+    fi
+        
     php -f ${crawlscript} -- $params
 }
 
@@ -103,7 +113,7 @@ function init-exclusive-named-process() {
 }
 
 
-while getopts "h?dpu:x:" opt; do
+while getopts "h?dl:pu:x:" opt; do
     case "$opt" in
     h|\?)
         ;;
@@ -115,6 +125,9 @@ while getopts "h?dpu:x:" opt; do
         ;;
     u)
         url="$OPTARG"
+        ;;
+    l)
+        limit="$OPTARG"
         ;;
     x)
         exclusive="$OPTARG"

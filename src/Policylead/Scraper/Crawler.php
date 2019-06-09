@@ -205,9 +205,10 @@ class Crawler
     }
 
     /**
+     * @param int $limit
      * @return boolean
      */
-    public function crawl()
+    public function crawl($limit)
     {
         $result = false;
 
@@ -222,6 +223,9 @@ class Crawler
                 $article = $this->crawlArticle($articleUrl);
                 if ($article) {
                     $this->articles[] = $article;
+                }
+                if ($limit && count($this->articles) === $limit) {
+                    break;
                 }
             }
 
@@ -244,7 +248,7 @@ class Crawler
         $content = $this->urlRetriever->getContent();
         if ($content) {
             $result = $this->articleLinkParser
-                ->getArticleLinks($content, 2);
+                ->getArticleLinks($content);
         } else {
             $this->lastErrorMessage = 'Could not retrieve article list.';
             $this->lastErrorCode = 1;

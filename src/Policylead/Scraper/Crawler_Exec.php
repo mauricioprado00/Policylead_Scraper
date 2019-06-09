@@ -5,7 +5,15 @@ namespace Policylead\Scraper;
 class Crawler_Exec
 {
 
+    /**
+     * @var string $url
+     */
     private $url;
+
+    /**
+     * @var int $limit
+     */
+    private $limit;
 
     private function parseArguments()
     {
@@ -14,14 +22,21 @@ class Crawler_Exec
         $longopts  = array(
             "help::",
             "url::",
+            "limit::",
         );
 
         $options = getopt($shortopts, $longopts);
         if (isset($options['help'])) {
             $this->help = true;
         }
+
         if (isset($options['url'])) {
             $this->url = $options['url'];
+        }
+
+        if (isset($options['limit'])) {
+            $this->limit = intval($options['limit']) > 0 ? 
+                intval($options['limit']) : 0;
         }
 
     }
@@ -40,7 +55,7 @@ class Crawler_Exec
             echo 'Crawling ' . $this->url . PHP_EOL;
             $crawler = new Crawler();
             $crawler->setUrl($this->url);
-            $result = $crawler->crawl();
+            $result = $crawler->crawl($this->limit);
             $articles = $crawler->getArticles();
             foreach ($articles as $article) {
                 $file = $article->store();
