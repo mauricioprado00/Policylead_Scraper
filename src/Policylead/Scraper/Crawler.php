@@ -248,7 +248,7 @@ class Crawler
 
         $content = $this->urlRetriever->getContent();
         if ($content) {
-            $result = $this->parseArticle($content);
+            $result = $this->parseArticle($content, $articleUrl);
         } else {
             $this->lastErrorMessage = 'Could not retrieve article.';
             $this->lastErrorCode = 2;
@@ -262,11 +262,15 @@ class Crawler
     }
 
     /**
+     * @param string $content
+     * @param string $url
      * @return string[]
      */
-    private function parseArticle($content)
+    private function parseArticle($content, $url)
     {
         $article = [];
+
+        $article['url'] = $url;
 
         $article['title'] = $this->articleTitleParser
             ->getArticleTitle($content, 2);
