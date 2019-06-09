@@ -11,13 +11,13 @@ namespace Policylead\Scraper\Parser;
  */
 abstract class ArticleExcerpt
 {
-	/**
+    /**
      * 
      * @param string $content html
      * @param int $slice to trim results
      * 
-	 * @return string
-	 */
-	abstract public function getArticleExcerpt($content, $slice = null);
+     * @return string
+     */
+    abstract public function getArticleExcerpt($content, $slice = null);
 }
 

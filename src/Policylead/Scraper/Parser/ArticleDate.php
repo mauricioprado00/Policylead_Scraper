@@ -11,13 +11,13 @@ namespace Policylead\Scraper\Parser;
  */
 abstract class ArticleDate
 {
-	/**
+    /**
      * 
      * @param string $content html
      * @param int $slice to trim results
      * 
-	 * @return string
-	 */
-	abstract public function getArticleDate($content, $slice = null);
+     * @return string
+     */
+    abstract public function getArticleDate($content, $slice = null);
 }
 
