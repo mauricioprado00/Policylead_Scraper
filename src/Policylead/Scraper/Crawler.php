@@ -113,16 +113,13 @@ class Crawler
 
         if ($this->url) {
             $articleUrlList = $this->crawlArticleList($this->url);
-            
+
             if (!$articleUrlList) {
                 $articleUrlList = [$this->url];
             }
 
-            var_dump($articleUrlList);
-
-
             foreach ($articleUrlList as $articleUrl) {
-                $article = $this->crawlArticle($this->url);
+                $article = $this->crawlArticle($articleUrl);
                 if ($article) {
                     $this->articles[] = $article;
                 }
@@ -140,7 +137,7 @@ class Crawler
     {
         $result = null;
 
-        $this->urlRetriever->fetch($this->url);
+        $this->urlRetriever->fetch($url);
 
         $content = $this->urlRetriever->getContent();
         if ($content) {
@@ -166,6 +163,30 @@ class Crawler
     {
         $result = null;
 
+        $this->urlRetriever->fetch($url);
+
+        $content = $this->urlRetriever->getContent();
+        if ($content) {
+            $result = $this->parseArticle($content);
+        } else {
+            $this->lastErrorMessage = 'Could not retrieve article.';
+            $this->lastErrorCode = 2;
+            $errorMessage = $this->urlRetriever->getErrorMessage();
+            if ($errorMessage) {
+                $this->lastErrorMessage .= PHP_EOL . $errorMessage;
+            }
+        }
+        
         return $result;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function parseArticle($content)
+    {
+        $article = [];
+
+        return $article;
     }
 }
